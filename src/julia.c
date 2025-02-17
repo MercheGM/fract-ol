@@ -3,10 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   julia.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mergarci <mergarci@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:53:41 by mergarci          #+#    #+#             */
-/*   Updated: 2025/02/17 19:53:42 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/02/17 20:25:31 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minilibx-linux/mlx.h"
+#include "../libftprintf/ft_printf.h"
