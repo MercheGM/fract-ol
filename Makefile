@@ -6,7 +6,7 @@ CFLAGS_MLX = -lmlx -lXext -lX11
 
 RM = @rm -f
 
-PATH_LIBFT = libftprintf/
+PATH_LIBFT = libft/
 PATH_MLX = minilibx-linux/
 PATH_OBJ = obj/
 PATH_SRC = src/
@@ -18,8 +18,8 @@ NAME_LIBMLX = libmlx_Linux.a
 LIBFT = $(PATH_LIBFT)$(NAME_LIBFT)
 LIBMLX = $(PATH_MLX)$(NAME_LIBMLX)
 
-SRC   = $(wildcard $(PATH_SRC)/*.c)
-OBJ   = $(patsubst $(PATH_SRC)/%.c, $(PATH_OBJ)/%.o, $(SRC))
+SRC   = $(wildcard $(PATH_SRC)*.c)
+OBJ   = $(patsubst $(PATH_SRC)%.c, $(PATH_OBJ)%.o, $(SRC))
 
 all : $(LIBFT) $(LIBMLX) $(NAME) 
 
@@ -29,7 +29,7 @@ $(LIBFT) :
 $(LIBMLX) :
 	$(MAKE) -C $(PATH_MLX)
 
-$(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
+$(OBJ_DIR)%.o: src/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME) : $(OBJ) $(LIBFT) $(LIBMLX)
