@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mergarci <mergarci@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:15:32 by mergarci          #+#    #+#             */
-/*   Updated: 2025/02/17 20:49:41 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:04:07 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-//#include "../minilibx-linux/mlx.h"
-#include "../libftprintf/ft_printf.h"
+#include "../minilibx-linux/mlx.h"
+#include "../libft/ft_printf.h"
 #include<math.h>
 
 //inputs.c
