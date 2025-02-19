@@ -1,54 +1,64 @@
-CC = cc
-CFLAGS = -g3
-#CFLAGS = -Wall -Werror -Wextra
-#CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address,undefined,leak
-CFLAGS_MLX = -lmlx -lXext -lX11
+CC          = cc
+CFLAGS      = -g3
+# Opcionales:
+# CFLAGS      = -Wall -Werror -Wextra
+# CFLAGS      = -Wall -Werror -Wextra -g3 -fsanitize=address,undefined,leak
 
-RM = @rm -f
+# Flags de enlace para MLX42 en Linux (ajusta según tu SO)
+CFLAGS_MLX  = -ldl -lglfw -pthread -lm
 
-PATH_LIBFT = libft/
-PATH_MLX = minilibx-linux/
-PATH_OBJ = obj/
-PATH_SRC = src/
+RM          = @rm -f
 
-NAME = fractol
-NAME_LIBFT = libftprintf.a
-NAME_LIBMLX = libmlx_Linux.a
+# Rutas para libft y fuentes
+PATH_LIBFT  = libft/
+PATH_SRC    = src/
+PATH_OBJ    = obj/
 
-LIBFT = $(PATH_LIBFT)$(NAME_LIBFT)
-LIBMLX = $(PATH_MLX)$(NAME_LIBMLX)
+# Variables para MLX42
+MLX_DIR         = MLX42/
+MLX_BUILD_DIR   = MLX42/build/
+
+NAME            = fractol
+NAME_LIBFT      = libftprintf.a
+NAME_LIBMLX     = libmlx42.a
+
+LIBFT   = $(PATH_LIBFT)$(NAME_LIBFT)
+LIBMLX  = $(MLX_BUILD_DIR)/$(NAME_LIBMLX)
 
 SRC   = $(wildcard $(PATH_SRC)*.c)
 OBJ   = $(patsubst $(PATH_SRC)%.c, $(PATH_OBJ)%.o, $(SRC))
 
-all : $(LIBFT) $(LIBMLX) $(NAME) 
+all: $(LIBFT) $(LIBMLX) $(NAME)
 
-$(LIBFT) :
+# Compilación de la libft
+$(LIBFT):
 	$(MAKE) -C $(PATH_LIBFT)
 
-$(LIBMLX) :
-	$(MAKE) -C $(PATH_MLX)
+# Compilación de MLX42 mediante CMake
+$(LIBMLX):
+	@cmake -DDEBUG=1 $(MLX_DIR) -B $(MLX_BUILD_DIR) && cmake --build $(MLX_BUILD_DIR) -j4
 
-$(OBJ_DIR)%.o: src/%.c | $(OBJ_DIR)
+# Regla para compilar los objetos (.o)
+$(PATH_OBJ)%.o: $(PATH_SRC)%.c | $(PATH_OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME) : $(OBJ) $(LIBFT) $(LIBMLX)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LIBMLX) $(CFLAGS_MLX) -o $(NAME)
-
-$(PATH_OBJ)%.o: $(PATH_SRC)%.c
+$(PATH_OBJ):
 	@mkdir -p $(PATH_OBJ)
-	$(CC) $(CFLAGS) -c $< -o $@
 
-fclean: clean
-	$(RM) $(NAME) 
-	$(RM) $(LIBFT) 
-	$(RM) $(LIBMLX) 
+# Enlaza el ejecutable final
+$(NAME): $(OBJ) $(LIBFT) $(LIBMLX)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LIBMLX) $(CFLAGS_MLX) -o $(NAME)
 
 clean:
 	$(RM) *.o
-	$(MAKE) clean -C $(PATH_MLX)
 	$(MAKE) clean -C $(PATH_LIBFT)
+	@cmake --build $(MLX_BUILD_DIR) --target clean || true
+
+fclean: clean
+	$(RM) $(NAME)
+	$(MAKE) fclean -C $(PATH_LIBFT)
+	$(RM) -r $(MLX_BUILD_DIR)
 
 re: fclean all
 
-.PHONY : all bonus clean fclean re
+.PHONY: all clean fclean re

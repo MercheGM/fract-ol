@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 19:28:14 by mergarci          #+#    #+#             */
-/*   Updated: 2025/02/18 18:04:51 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/02/18 20:26:25 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,30 @@
 
 }*/
 
-int	deal_key(int key, void *param)
+int	main(void)
 {
-	ft_putchar_fd('X', 1);
-	//ft_printf("*%d*\n", key);
-	return (0);
-}
+	t_data	data;
 
-int	main()
-{
-	void	*mlx_ptr;
-	void	*win_ptr;
-
-	//ft_printf("%s\n", "holi holi");
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, 500, 500, "mlx 42");
-	//mlx_pixel_put(mlx_ptr, win_ptr, 250,250, 0xFFFFFF);
-	//mlx_key_hook(mlx_ptr, deal_key, (void *)0);
-	mlx_loop(mlx_ptr);
+	data.mlx = mlx_init(WIDTH, HEIGHT, "Fractol", true);
+	if (!data.mlx)
+	{
+		ft_printf("ERROR: MLX init failed\n");
+		return (EXIT_FAILURE);
+	}
+	data.img = mlx_new_image(data.mlx, 500, 200);
+	if (!data.img)
+	{
+		ft_printf("ERROR: MLX img failed\n");
+		mlx_terminate(data.mlx);
+		return (EXIT_FAILURE);
+	}
+	if (mlx_image_to_window(data.mlx, data.img, 0, 0))
+	{
+		ft_printf("ERROR: Failed to put image to window\n");
+		mlx_delete_image(data.mlx, data.img);
+		mlx_terminate(data.mlx);
+		return (EXIT_FAILURE);
+	}
+	mlx_loop(data.mlx);
 	return (0);
 }
