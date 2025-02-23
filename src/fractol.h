@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mergarci <mergarci@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:15:32 by mergarci          #+#    #+#             */
-/*   Updated: 2025/02/18 20:08:29 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/02/23 19:47:29 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,16 @@ typedef struct s_data
 
 //inputs.c
 int	check_arg(int argc, char *argv[]);
+
+//hook.c
+void my_scrollhook(double xdelta, double ydelta, void* param);
+void my_keyhook(mlx_key_data_t keydata, void* param);
+void	hook(void* param);
+void	hook_mandelbrot(void* param);
+//mandelbrot.c
+void mandelbrot(t_data *data);
+
+//window.c
+int	init_window(t_data	*data);
 
 #endif

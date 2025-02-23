@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:40:42 by mergarci          #+#    #+#             */
-/*   Updated: 2025/02/18 17:24:07 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/02/23 19:44:12 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 	else
 		return (1);
 }*/
-int mandelbrot(void)
+void mandelbrot(t_data *data)
 {
-	int i;
+	ft_printf("Mandelbrot function\n");
+	for (int x = 0; x < data->img->width; x++)
+		for(int y= 0; y < data->img->height; y++)
+			mlx_put_pixel(data->img, x, y, rand() % RAND_MAX);
 
-	i = 10;
-	ft_printf("Mandelbrot: %d\n", i);
-	return (i);
 }
