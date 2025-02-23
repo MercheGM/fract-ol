@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:13:16 by mergarci          #+#    #+#             */
-/*   Updated: 2025/02/23 19:48:06 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:59:18 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void my_scrollhook(double xdelta, double ydelta, void* param)
 {
 	// Simple up or down detection.
 	if (ydelta > 0)
-		puts("Up!");
+		ft_printf("up! %d, %d\n",xdelta, ydelta);
 	else if (ydelta < 0)
-		puts("Down!");
+		ft_printf("down! %d, %d\n",xdelta, ydelta);
 	
 	// Can also detect a mousewheel that go along the X (e.g: MX Master 3)
 	if (xdelta < 0)

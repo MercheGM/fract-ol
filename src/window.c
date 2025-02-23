@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:16:57 by mergarci          #+#    #+#             */
-/*   Updated: 2025/02/23 19:11:59 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:41:35 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@ int	init_window(t_data	*data)
 		ft_printf("ERROR: MLX init failed\n");
 		return (EXIT_FAILURE);
 	}
-	data->img = mlx_new_image(data->mlx, 500, 200);
+	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	if (!data->img)
 	{
 		ft_printf("ERROR: MLX img failed\n");
 		mlx_terminate(data->mlx);
 		return (EXIT_FAILURE);
 	}
-	if (mlx_image_to_window(data->mlx, data->img, 0, 0))
+	/*if (mlx_image_to_window(data->mlx, data->img, 0, 0))
 	{
 		ft_printf("ERROR: Failed to put image to window\n");
 		mlx_delete_image(data->mlx, data->img);
 		mlx_terminate(data->mlx);
 		return (EXIT_FAILURE);
-	}
+	}*/
 	
 	return (0);
 }

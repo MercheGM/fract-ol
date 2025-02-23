@@ -6,11 +6,22 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 19:28:14 by mergarci          #+#    #+#             */
-/*   Updated: 2025/02/23 19:47:19 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/02/23 21:08:42 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+// Callback para manejar eventos de teclado
+void key_callback(mlx_key_data_t keydata, void *param)
+{
+    mlx_t *mlx = (mlx_t *)param;
+    if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+        mlx_close_window(mlx);
+}
+
+
+
 
 int main(int argc, char *argv[])
 {
@@ -30,12 +41,16 @@ int main(int argc, char *argv[])
 		else if (ft_atoi(argv[1]) == 2)
 		{
 			ft_printf("We'll see Mandelbrot fractal\n");
-			mlx_loop_hook(data->mlx, &hook_mandelbrot, data);
+			mandelbrot(data);
+			//mlx_loop_hook(data->mlx, &hook_mandelbrot, data);
 		}
 	}
 	//mlx_loop_hook(data->mlx, &hook, data);
-	mlx_loop(data->mlx);
+	//mlx_loop(data->mlx);
 	mlx_close_window(data->mlx);
 	return (0);
 
 }
+
+
+

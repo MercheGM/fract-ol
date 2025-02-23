@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:15:32 by mergarci          #+#    #+#             */
-/*   Updated: 2025/02/23 19:47:29 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/02/23 21:04:39 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 
 #include "../MLX42/include/MLX42/MLX42.h"
 #include "../libft/ft_printf.h"
-#include<math.h>
+#include <math.h>
+#include <stdlib.h>
+#include <stdint.h>
 
 typedef struct s_data
 {
@@ -41,7 +43,7 @@ void my_keyhook(mlx_key_data_t keydata, void* param);
 void	hook(void* param);
 void	hook_mandelbrot(void* param);
 //mandelbrot.c
-void mandelbrot(t_data *data);
+int mandelbrot(t_data *data);
 
 //window.c
 int	init_window(t_data	*data);
