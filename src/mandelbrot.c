@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:40:42 by mergarci          #+#    #+#             */
-/*   Updated: 2025/02/23 21:33:20 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:23:38 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,9 @@ void init_mandelbrot(t_data *data)
 {
 	data->maxIter = 300;
 }
-int mandelbrot(t_data	*data)
+
+int print_mandelbrot(t_data	*data, double zoom, double offsetX, double offsetY)
 {
-	init_mandelbrot(data);
-    // Parámetros para el fractal
-    double zoom = 4;
-    double offsetX = -0.5;
-    double offsetY = 0.5;
-	
     // Dibuja el fractal: recorre cada píxel de la imagen
 	uint32_t x = 0;
 	uint32_t y = 0;
@@ -59,9 +54,23 @@ int mandelbrot(t_data	*data)
 			y++;
         }
 		x++;
+
     }
     // Muestra la imagen en la ventana
     mlx_image_to_window(data->mlx, data->img, 0, 0);
+    return (0);
+}
+
+int mandelbrot(t_data	*data)
+{
+	init_mandelbrot(data);
+    // Parámetros para el fractal
+    double zoom = 1;
+    double offsetX = 0;
+    double offsetY = 0;
+	print_mandelbrot(data, zoom, offsetX, offsetY);
+
+
     // Registra el callback para eventos de teclado
     mlx_key_hook(data->mlx, my_keyhook, data);
     // Bucle principal de MLX42 para procesar eventos

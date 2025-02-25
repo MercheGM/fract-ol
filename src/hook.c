@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:13:16 by mergarci          #+#    #+#             */
-/*   Updated: 2025/02/23 20:59:18 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:24:51 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,18 @@ void my_keyhook(mlx_key_data_t keydata, void* param)
 
     data = param;
 	// If we PRESS the 'J' key, print "Hello".
-	if (keydata.key == MLX_KEY_J && keydata.action == MLX_PRESS)
-		puts("Hello ");
-
+	if (keydata.key == MLX_KEY_Z && keydata.action == MLX_PRESS)
+	{
+		mlx_delete_image(data->mlx, data->img);
+		print_mandelbrot(data, 2, 0.0, 0.2);
+	}
 	// If we RELEASE the 'K' key, print "World".
 	if (keydata.key == MLX_KEY_K && keydata.action == MLX_RELEASE)
 		puts("World");
 
 	// If we HOLD the 'L' key, print "!".
-	if (keydata.key == MLX_KEY_L && keydata.action == MLX_REPEAT)
-		mlx_put_pixel(data->img, 0, 1, 0xFF0000FF);
+	if (keydata.key == MLX_KEY_L && keydata.action == MLX_PRESS)
+		mlx_put_pixel(data->img, WIDTH / 2, HEIGHT / 2, 0xFF0000FF);
 
     if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
     {

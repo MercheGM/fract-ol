@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 19:28:14 by mergarci          #+#    #+#             */
-/*   Updated: 2025/02/23 21:08:42 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:26:52 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int main(int argc, char *argv[])
 	if (!err)
 	{
 		err = init_window(data);
-		mlx_scroll_hook(data->mlx, &my_scrollhook, NULL);
-		mlx_key_hook(data->mlx, &my_keyhook, data);
+		//mlx_scroll_hook(data->mlx, &my_scrollhook, NULL);
+		//mlx_key_hook(data->mlx, &my_keyhook, data);
 		if (ft_atoi(argv[1]) == 1)
 		{
 			ft_printf("We'll see Julia fractal\n");
