@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 19:28:14 by mergarci          #+#    #+#             */
-/*   Updated: 2025/02/25 17:26:52 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:32:50 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void key_callback(mlx_key_data_t keydata, void *param)
 
 
 
+
 int main(int argc, char *argv[])
 {
 	int		err;
@@ -32,7 +33,7 @@ int main(int argc, char *argv[])
 	if (!err)
 	{
 		err = init_window(data);
-		//mlx_scroll_hook(data->mlx, &my_scrollhook, NULL);
+		//mlx_scroll_hook(data->mlx, &my_scrollhook, data);
 		//mlx_key_hook(data->mlx, &my_keyhook, data);
 		if (ft_atoi(argv[1]) == 1)
 		{
@@ -51,6 +52,3 @@ int main(int argc, char *argv[])
 	return (0);
 
 }
-
-
-

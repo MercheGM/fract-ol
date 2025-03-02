@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:15:32 by mergarci          #+#    #+#             */
-/*   Updated: 2025/02/25 17:08:54 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/02 20:26:21 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@ typedef struct s_data
     double      minIm;
     double      maxIm;
     int         maxIter;
+    double      x_min;
+    double      x_max;
+    double      y_min;
+    double      y_max;
+    double      c_re;
+    double      c_im;
+    double      zoom_factor;
 }               t_data;
 
 # define WIDTH 700
@@ -44,8 +51,7 @@ void	hook(void* param);
 void	hook_mandelbrot(void* param);
 //mandelbrot.c
 int mandelbrot(t_data *data);
-int print_mandelbrot(t_data	*data, double zoom, double offsetX, double offsetY);
-
+int print_mandelbrot(t_data	*data);
 
 //window.c
 int	init_window(t_data	*data);
