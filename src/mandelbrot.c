@@ -6,26 +6,28 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:40:42 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/02 20:32:27 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/03 21:02:52 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 void init_mandelbrot(t_data *data)
 {
-	data->maxIter = 200;
+	data->max_iter = 100;
     data->x_min = -2.0;
     data->x_max = 1.0;
     data->y_min = -1.5;
     data->y_max = 1.5;
     data->zoom_factor = 0.9;
+    data->color = COLOR_PSYCHEDELIC;
+
 }
 
 // Función para mapear píxel a coordenada compleja
 void pixel_to_complex(int x, int y, t_data	*data)
 {
-    data->c_re = data->x_min + ((double)x / WIDTH) * (data->x_max - data->x_min);
-    data->c_im = data->y_min + ((double)y / HEIGHT) * (data->y_max - data->y_min);
+    data->c_re = data->x_min + ((double)x / WIN_WIDTH) * (data->x_max - data->x_min);
+    data->c_im = data->y_min + ((double)y / WIN_HEIGHT) * (data->y_max - data->y_min);
 }
 
 // Función para calcular el número de iteraciones en Mandelbrot
@@ -39,7 +41,7 @@ int mandelbrot_iter(t_data	*data)
     z_re = 0;
     z_im = 0;
     i = 0;
-    while ((z_re * z_re + z_im * z_im <= 4) && (i < data->maxIter)) {
+    while ((z_re * z_re + z_im * z_im <= 4) && (i < data->max_iter)) {
         temp = z_re * z_re - z_im * z_im + data->c_re;
         z_im = 2 * z_re * z_im + data->c_im;
         z_re = temp;
@@ -51,9 +53,14 @@ int mandelbrot_iter(t_data	*data)
 // Función para obtener un color basado en el número de iteraciones
 uint32_t get_color(int iterations, t_data	*data) 
 {
-    if (iterations == data->maxIter)
-        return 0x000000; // negro para puntos dentro del conjunto
-    return (iterations * 0x00FF00 / data->maxIter); // ejemplo de gradiente
+    uint32_t color;
+    
+    if (iterations == data->max_iter)
+        color = COLOR_BLACK; 
+    else
+        color = iterations * data->color / data->max_iter;
+        //color = data->color;
+    return (color); 
 }
 
 int print_mandelbrot(t_data	*data)
@@ -64,10 +71,10 @@ int print_mandelbrot(t_data	*data)
     int iterations = 0;
     uint32_t color;
     
-    while (x < WIDTH)
+    while (x < WIN_WIDTH)
     {
 		y = 0;
-        while (y < HEIGHT)
+        while (y < WIN_HEIGHT)
         {
             // Mapea el píxel al plano complejo
             pixel_to_complex(x, y, data);
@@ -90,7 +97,7 @@ int mandelbrot(t_data	*data)
     
    // mlx_mouse_hook(data->mlx, &mouse_hook, mlx);
     // Registra el callback para eventos de teclado
-    //mlx_key_hook(data->mlx, my_keyhook, data);
+    mlx_key_hook(data->mlx, my_keyhook, data);
     // Bucle principal de MLX42 para procesar eventos
     mlx_loop(data->mlx);
 	

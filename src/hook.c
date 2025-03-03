@@ -6,44 +6,52 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:13:16 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/02 20:27:35 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/03 21:01:50 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	zoom_in(t_data *data, double zoom_factor)
+void	zoom_in(t_data *data, double zoom_factor, int x, int y)
 {
-		double width;
-		double height;
 		double center_x;
 		double center_y;
+		double pointer_x;
+		double pointer_y;
 		
-		width = (data->x_max - data->x_min) * zoom_factor;
-        height = (data->y_max - data->y_min) * zoom_factor;
-        center_x = (data->x_max + data->x_min) / 2;
-        center_y = (data->y_max + data->y_min) / 2;
-        data->x_min = center_x - width / 2;
-        data->x_max = center_x + width / 2;
-        data->y_min = center_y - height / 2;
-        data->y_max = center_y + height / 2;
-}
-
-void	zoom_out(t_data *data, double zoom_factor)
-{
-		double width;
-		double height;
-		double center_x;
-		double center_y;
-		
-		width = (data->x_max - data->x_min) / zoom_factor;
-		height = (data->y_max - data->y_min) / zoom_factor;
+		pointer_x = data->x_min + (data->x_max - data->x_min) * ((double)x / (WIN_WIDTH - 1));
+    	pointer_y = data->y_max - (data->y_max - data->y_min) * ((double)y / (WIN_HEIGHT- 1));
 		center_x = (data->x_max + data->x_min) / 2;
 		center_y = (data->y_max + data->y_min) / 2;
-        data->x_min = center_x - width / 2;
-        data->x_max = center_x + width / 2;
-        data->y_min = center_y - height / 2;
-        data->y_max = center_y + height / 2;
+        data->x_min = pointer_x + zoom_factor * (data->x_min - pointer_x);
+        data->x_max = pointer_x + zoom_factor * (data->x_max - pointer_x);
+        data->y_min = pointer_y + zoom_factor * (data->y_min - pointer_y);
+        data->y_max = pointer_y + zoom_factor * (data->y_max - pointer_y);
+}
+
+void	zoom_out(t_data *data, double zoom_factor, int x, int y)
+{
+		double center_x;
+		double center_y;
+		double pointer_x;
+		double pointer_y;
+		
+		pointer_x = data->x_min + (data->x_max - data->x_min) * ((double)x / (WIN_WIDTH - 1));
+    	pointer_y = data->y_max - (data->y_max - data->y_min) * ((double)y / (WIN_HEIGHT- 1));
+		center_x = (data->x_max + data->x_min) / 2;
+		center_y = (data->y_max + data->y_min) / 2;
+        data->x_min = pointer_x + (data->x_min - pointer_x) / zoom_factor;
+        data->x_max = pointer_x + (data->x_max - pointer_x) / zoom_factor;
+        data->y_min = pointer_y + (data->y_min - pointer_y) / zoom_factor;
+        data->y_max = pointer_y + (data->y_max - pointer_y) / zoom_factor;
+}
+
+void check_mouse_pos(int *x, int *y)
+{
+	if (*x > WIN_WIDTH)
+		*x = (int)(WIN_WIDTH/2);
+	if (*y > WIN_HEIGHT) 
+		*y = (int)(WIN_HEIGHT/2);
 }
 
 void my_scrollhook(double xdelta, double ydelta, void* param)
@@ -51,76 +59,54 @@ void my_scrollhook(double xdelta, double ydelta, void* param)
 	t_data *data;
 	int x;
 	int y;
+	
 	data = (t_data *)param;
-	// Simple up or down detection.
-	//void mlx_get_mouse_pos(mlx_t* mlx, int32_t* x, int32_t* y);
-	mlx_get_mouse_pos(data->mlx,&x,&y); //___Aquí conseguimos la posición de X,Y a la hora de hacer scroll
-	printf("pos x: %d, y: %d\n", x,y);
+	mlx_get_mouse_pos(data->mlx,&x,&y);
+	check_mouse_pos(&x, &y);
 	if (ydelta > 0)
-	{
-		printf("up! %f, %f\n",xdelta, ydelta);
-		zoom_in(data, data->zoom_factor);
-	}
+		zoom_in(data, data->zoom_factor, x, y);
 	else if (ydelta < 0)
-	{
-		printf("down! %f, %f\n",xdelta, ydelta);
-		zoom_out(data, data->zoom_factor);
-	}
+		zoom_out(data, data->zoom_factor, x, y);
 	print_mandelbrot(data);
 
+}
+void changing_colors(t_data *data)
+{
+	//printf("old %X\n", data->color);
+	if (data->color == COLOR_PSYCHEDELIC)
+		data->color = COLOR3;
+	else if (data->color == COLOR3)
+		data->color = NEON_BLUE;
+	else if (data->color == NEON_BLUE)
+		data->color = NEON_YELLOW;
+	else if (data->color == NEON_YELLOW)
+		data->color = NEON_RED;
+	else if (data->color == NEON_RED)
+		data->color = WHITE;
+	printf("new %X\n", data->color);
 }
 
 void my_keyhook(mlx_key_data_t keydata, void* param)
 {
     t_data *data;
-
+	int x, y;
+	
     data = param;
-	// If we PRESS the 'J' key, print "Hello".
+	mlx_get_mouse_pos(data->mlx,&x,&y);
+	check_mouse_pos(&x, &y);
 	if (keydata.key == MLX_KEY_Z && keydata.action == MLX_PRESS)
-	{
-		puts("ZZZZWorld");
-		//mlx_delete_image(data->mlx, data->img);
-		//print_mandelbrot(data);
-	}
-	// If we RELEASE the 'K' key, print "World".
-	if (keydata.key == MLX_KEY_K && keydata.action == MLX_RELEASE)
-		puts("World");
-
-	// If we HOLD the 'L' key, print "!".
-	if (keydata.key == MLX_KEY_L && keydata.action == MLX_PRESS)
-		mlx_put_pixel(data->img, WIDTH / 2, HEIGHT / 2, 0xFF0000FF);
-
+		zoom_in(data, data->zoom_factor, x, y);
+	if (keydata.key == MLX_KEY_X && keydata.action == MLX_PRESS)
+		zoom_out(data, data->zoom_factor, x, y);
+	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
+		changing_colors(data);
+	if (keydata.key == MLX_KEY_O && keydata.action == MLX_PRESS)
+		puts("Changing colors2!!");
     if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
     {
         mlx_terminate(data->mlx);
 		puts("Cerrando");
         exit(0);
     }
-}
-void	hook(void* param)
-{
-    t_data *data;
-
-    data = param;
-	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(data->mlx);
-	if (mlx_is_key_down(data->mlx, MLX_KEY_P))
-		mlx_delete_image(data->mlx, data->img);
-	for (int x = 0; x < data->img->width; x++)
-		for(int y= 0; y < data->img->height; y++)
-			mlx_put_pixel(data->img, x, y, rand() % RAND_MAX);
-}
-
-void	hook_mandelbrot(void* param)
-{
-    t_data *data;
-
-    data = param;
-	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(data->mlx);
-	if (mlx_is_key_down(data->mlx, MLX_KEY_Q))
-		mlx_delete_image(data->mlx, data->img);
-	for (int x = 0; x < data->img->width; x++)
-		for(int y= 0; y < data->img->height; y++)
-			mlx_put_pixel(data->img, x, y, rand() % RAND_MAX);
+	print_mandelbrot(data);
 }
