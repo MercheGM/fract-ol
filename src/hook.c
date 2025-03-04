@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:13:16 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/03 21:01:50 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/04 21:14:20 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	zoom_in(t_data *data, double zoom_factor, int x, int y)
         data->x_max = pointer_x + zoom_factor * (data->x_max - pointer_x);
         data->y_min = pointer_y + zoom_factor * (data->y_min - pointer_y);
         data->y_max = pointer_y + zoom_factor * (data->y_max - pointer_y);
+		//data->max_iter += 2;
 }
 
 void	zoom_out(t_data *data, double zoom_factor, int x, int y)
@@ -44,6 +45,7 @@ void	zoom_out(t_data *data, double zoom_factor, int x, int y)
         data->x_max = pointer_x + (data->x_max - pointer_x) / zoom_factor;
         data->y_min = pointer_y + (data->y_min - pointer_y) / zoom_factor;
         data->y_max = pointer_y + (data->y_max - pointer_y) / zoom_factor;
+		//data->max_iter -= 2;
 }
 
 void check_mouse_pos(int *x, int *y)
@@ -61,6 +63,8 @@ void my_scrollhook(double xdelta, double ydelta, void* param)
 	int y;
 	
 	data = (t_data *)param;
+	//printf("pintamos el fractal\n");
+
 	mlx_get_mouse_pos(data->mlx,&x,&y);
 	check_mouse_pos(&x, &y);
 	if (ydelta > 0)
@@ -85,24 +89,53 @@ void changing_colors(t_data *data)
 		data->color = WHITE;
 	printf("new %X\n", data->color);
 }
+void move(mlx_key_data_t key, t_data *data)
+{
+    double step;
+	
+	step = 0.1;
+    if (key.key == MLX_KEY_LEFT)
+	{
+        data->x_min -= (data->x_max - data->x_min) * step;
+        data->x_max -= (data->y_max - data->y_min) * step;
+    }
+    else if (key.key == MLX_KEY_RIGHT)
+	{
+        data->x_min += (data->x_max - data->x_min) * step;
+        data->x_max += (data->x_max - data->x_min) * step;
+    }
+    else if (key.key == MLX_KEY_DOWN) 
+	{
+        data->y_min += (data->y_max - data->y_min) * step;
+        data->y_max += (data->y_max - data->y_min) * step;
+    }
+    else if (key.key == MLX_KEY_UP) 
+	{
+        data->y_min -= (data->y_max - data->y_min) * step;
+        data->y_max -= (data->y_max - data->y_min) * step;
+    }
+}
 
-void my_keyhook(mlx_key_data_t keydata, void* param)
+void my_keyhook(mlx_key_data_t key, void* param)
 {
     t_data *data;
-	int x, y;
+	int x;
+	int y;
 	
-    data = param;
+    data = (t_data *)param;
 	mlx_get_mouse_pos(data->mlx,&x,&y);
 	check_mouse_pos(&x, &y);
-	if (keydata.key == MLX_KEY_Z && keydata.action == MLX_PRESS)
+	if (key.key == MLX_KEY_Z && key.action == MLX_PRESS)
 		zoom_in(data, data->zoom_factor, x, y);
-	if (keydata.key == MLX_KEY_X && keydata.action == MLX_PRESS)
+	if (key.key == MLX_KEY_X && key.action == MLX_PRESS)
 		zoom_out(data, data->zoom_factor, x, y);
-	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
+	if (key.key == MLX_KEY_SPACE && key.action == MLX_PRESS)
 		changing_colors(data);
-	if (keydata.key == MLX_KEY_O && keydata.action == MLX_PRESS)
-		puts("Changing colors2!!");
-    if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+	if ((key.key == MLX_KEY_LEFT || key.key == MLX_KEY_RIGHT || \
+	 	key.key == MLX_KEY_UP || key.key == MLX_KEY_DOWN) && \
+	    key.action == MLX_PRESS)
+		move(key, data);
+    if (key.key == MLX_KEY_ESCAPE && key.action == MLX_PRESS)
     {
         mlx_terminate(data->mlx);
 		puts("Cerrando");

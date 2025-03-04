@@ -6,14 +6,17 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:40:42 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/03 21:02:52 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/04 21:18:47 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
 void init_mandelbrot(t_data *data)
 {
-	data->max_iter = 100;
+    data->win_title = "Mandelbrot Fractal";
+    data->type = MANDELBROT;
+	//data->max_iter = ITER;
     data->x_min = -2.0;
     data->x_max = 1.0;
     data->y_min = -1.5;
@@ -41,7 +44,8 @@ int mandelbrot_iter(t_data	*data)
     z_re = 0;
     z_im = 0;
     i = 0;
-    while ((z_re * z_re + z_im * z_im <= 4) && (i < data->max_iter)) {
+    while ((z_re * z_re + z_im * z_im <= 4) && (i < data->max_iter)) 
+    {
         temp = z_re * z_re - z_im * z_im + data->c_re;
         z_im = 2 * z_re * z_im + data->c_im;
         z_re = temp;
@@ -50,33 +54,23 @@ int mandelbrot_iter(t_data	*data)
     return (i);
 }
 
-// Función para obtener un color basado en el número de iteraciones
-uint32_t get_color(int iterations, t_data	*data) 
-{
-    uint32_t color;
-    
-    if (iterations == data->max_iter)
-        color = COLOR_BLACK; 
-    else
-        color = iterations * data->color / data->max_iter;
-        //color = data->color;
-    return (color); 
-}
 
-int print_mandelbrot(t_data	*data)
+int print_mandelbrot(t_data	*data )
 {
-    // Dibuja el fractal: recorre cada píxel de la imagen
-	int x = 0;
-	int y = 0;
-    int iterations = 0;
-    uint32_t color;
+	int x;
+	int y;
+    int iterations;
+    int color;
     
+    iterations = 0;
+    x = 0;
+    y = 0;
+    printf("%dx%d\n", WIN_WIDTH, WIN_HEIGHT);
     while (x < WIN_WIDTH)
     {
 		y = 0;
         while (y < WIN_HEIGHT)
         {
-            // Mapea el píxel al plano complejo
             pixel_to_complex(x, y, data);
             iterations = mandelbrot_iter(data);
             color = get_color(iterations, data);
@@ -91,14 +85,12 @@ int print_mandelbrot(t_data	*data)
 
 int mandelbrot(t_data	*data)
 {
-	init_mandelbrot(data);
+	//init_mandelbrot(data);
 	print_mandelbrot(data);
 	mlx_scroll_hook(data->mlx, &my_scrollhook, data);
     
    // mlx_mouse_hook(data->mlx, &mouse_hook, mlx);
-    // Registra el callback para eventos de teclado
     mlx_key_hook(data->mlx, my_keyhook, data);
-    // Bucle principal de MLX42 para procesar eventos
     mlx_loop(data->mlx);
 	
     return EXIT_SUCCESS;
