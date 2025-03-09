@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:13:16 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/04 21:14:20 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/09 20:58:57 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	zoom_in(t_data *data, double zoom_factor, int x, int y)
         data->x_max = pointer_x + zoom_factor * (data->x_max - pointer_x);
         data->y_min = pointer_y + zoom_factor * (data->y_min - pointer_y);
         data->y_max = pointer_y + zoom_factor * (data->y_max - pointer_y);
-		//data->max_iter += 2;
+		data->max_iter += 2;
 }
 
 void	zoom_out(t_data *data, double zoom_factor, int x, int y)
@@ -45,7 +45,7 @@ void	zoom_out(t_data *data, double zoom_factor, int x, int y)
         data->x_max = pointer_x + (data->x_max - pointer_x) / zoom_factor;
         data->y_min = pointer_y + (data->y_min - pointer_y) / zoom_factor;
         data->y_max = pointer_y + (data->y_max - pointer_y) / zoom_factor;
-		//data->max_iter -= 2;
+		data->max_iter -= 2;
 }
 
 void check_mouse_pos(int *x, int *y)
@@ -77,17 +77,27 @@ void my_scrollhook(double xdelta, double ydelta, void* param)
 void changing_colors(t_data *data)
 {
 	//printf("old %X\n", data->color);
-	if (data->color == COLOR_PSYCHEDELIC)
-		data->color = COLOR3;
-	else if (data->color == COLOR3)
+	if (data->color == COLOR_RED)
+		data->color = COLOR_BLUE;
+	else if (data->color == COLOR_BLUE)
+		data->color = COLOR_GREEN;
+	else if (data->color == COLOR_GREEN)
 		data->color = NEON_BLUE;
 	else if (data->color == NEON_BLUE)
 		data->color = NEON_YELLOW;
 	else if (data->color == NEON_YELLOW)
 		data->color = NEON_RED;
 	else if (data->color == NEON_RED)
-		data->color = WHITE;
-	printf("new %X\n", data->color);
+		data->color = COLOR_WHITE;
+	//printf("new %X\n", data->color);
+}
+
+void changing_transition(t_data *data)
+{
+	if (data->transition == PSYCHEDELIC)
+		data->transition = DEGRADED;
+	else if (data->transition == DEGRADED)
+		data->transition = PSYCHEDELIC;
 }
 void move(mlx_key_data_t key, t_data *data)
 {
@@ -130,16 +140,14 @@ void my_keyhook(mlx_key_data_t key, void* param)
 	if (key.key == MLX_KEY_X && key.action == MLX_PRESS)
 		zoom_out(data, data->zoom_factor, x, y);
 	if (key.key == MLX_KEY_SPACE && key.action == MLX_PRESS)
+		changing_transition(data);
+	if (key.key == MLX_KEY_C && key.action == MLX_PRESS)
 		changing_colors(data);
 	if ((key.key == MLX_KEY_LEFT || key.key == MLX_KEY_RIGHT || \
 	 	key.key == MLX_KEY_UP || key.key == MLX_KEY_DOWN) && \
 	    key.action == MLX_PRESS)
 		move(key, data);
     if (key.key == MLX_KEY_ESCAPE && key.action == MLX_PRESS)
-    {
-        mlx_terminate(data->mlx);
-		puts("Cerrando");
-        exit(0);
-    }
+		closing_window(data);
 	print_mandelbrot(data);
 }

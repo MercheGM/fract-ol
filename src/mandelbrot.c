@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:40:42 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/04 21:18:47 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/09 20:54:43 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ void init_mandelbrot(t_data *data)
 {
     data->win_title = "Mandelbrot Fractal";
     data->type = MANDELBROT;
-	//data->max_iter = ITER;
     data->x_min = -2.0;
     data->x_max = 1.0;
     data->y_min = -1.5;
     data->y_max = 1.5;
     data->zoom_factor = 0.9;
-    data->color = COLOR_PSYCHEDELIC;
+    data->color = COLOR_RED;
+    data->transition = DEGRADED;
 
 }
 
@@ -65,7 +65,6 @@ int print_mandelbrot(t_data	*data )
     iterations = 0;
     x = 0;
     y = 0;
-    printf("%dx%d\n", WIN_WIDTH, WIN_HEIGHT);
     while (x < WIN_WIDTH)
     {
 		y = 0;
@@ -83,10 +82,12 @@ int print_mandelbrot(t_data	*data )
     return (0);
 }
 
+
 int mandelbrot(t_data	*data)
 {
 	//init_mandelbrot(data);
 	print_mandelbrot(data);
+    //printf("colores: R: %d G: %d, B: %d, A: %d\n", get_r(data->color), get_g(data->color), get_b(data->color), get_a(data->color));
 	mlx_scroll_hook(data->mlx, &my_scrollhook, data);
     
    // mlx_mouse_hook(data->mlx, &mouse_hook, mlx);

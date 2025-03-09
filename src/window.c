@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:16:57 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/04 21:26:55 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/09 19:07:02 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	init_window(t_data	*data)
 {
-	printf("titulo: %s. Tam: %dx%d\n", data->win_title, WIN_WIDTH, WIN_HEIGHT);
+	printf("ttulo: %s. Tam: %dx%d\n", data->win_title, WIN_WIDTH, WIN_HEIGHT);
 	data->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, data->win_title, true);
 	if (!data->mlx)
 	{
@@ -29,4 +29,13 @@ int	init_window(t_data	*data)
 		return (EXIT_FAILURE);
 	}
 	return (0);
+}
+
+void closing_window(t_data *data)
+{
+	mlx_terminate(data->mlx);
+	mlx_close_window(data->mlx);
+	ft_printf("Closing..\n");
+	free(data);
+	exit(0);
 }

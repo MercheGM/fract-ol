@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:53:41 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/04 20:08:18 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/09 20:54:33 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void init_julia(t_data *data)
     data->y_min = -1.5;
     data->y_max = 1.5;
     data->zoom_factor = 0.9;
-    data->color = COLOR_PSYCHEDELIC;
+    data->color = COLOR_RED;
+    data->transition = DEGRADED;
 
 }

@@ -6,27 +6,24 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 19:28:14 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/04 20:20:34 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/09 19:21:59 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-/*int get_rgba(int r, int g, int b, int a)
-{
-    return (r << 24 | g << 16 | b << 8 | a);
-}*/
 int main(int argc, char *argv[])
 {
 	int		err;
 	t_data	*data;
 	
+	data = (t_data *)ft_calloc(1, sizeof(t_data));
+	if (!data)
+		return (1);
 	err = check_arg(argc, argv, data);
 	if (!err)
 	{
 		err = init_window(data);
-		//mlx_scroll_hook(data->mlx, &my_scrollhook, data);
-		//mlx_key_hook(data->mlx, &my_keyhook, data);
 		if (data->type == MANDELBROT)
 			mandelbrot(data);
 		else if (data->type == JULIA)
@@ -35,10 +32,13 @@ int main(int argc, char *argv[])
 			
 			//mlx_loop_hook(data->mlx, &hook_mandelbrot, data);
 		}
+		else
+		{
+			free(data);
+			data = NULL;
+		}
 	}
-	//mlx_loop_hook(data->mlx, &hook, data);
-	//mlx_loop(data->mlx);
-	mlx_close_window(data->mlx);
+	closing_window(data);
 	return (0);
 
 }

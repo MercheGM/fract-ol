@@ -1,5 +1,5 @@
 CC          = cc
-CFLAGS      = -g3
+CFLAGS      = -g3 -fsanitize=address -I$(PATH_SRC)
 # Opcionales:
 # CFLAGS      = -Wall -Werror -Wextra
 # CFLAGS      = -Wall -Werror -Wextra -g3 -fsanitize=address,undefined,leak
@@ -21,10 +21,12 @@ MLX_BUILD_DIR   = MLX42/build/
 NAME            = fractol
 NAME_LIBFT      = libftprintf.a
 NAME_LIBMLX     = libmlx42.a
+NAME_INC		= fractol.h
 
 LIBFT   = $(PATH_LIBFT)$(NAME_LIBFT)
-LIBMLX  = $(MLX_BUILD_DIR)/$(NAME_LIBMLX)
+LIBMLX  = $(MLX_BUILD_DIR)$(NAME_LIBMLX)
 
+INC = $(PATH_SRC)$(NAME_INC)
 SRC   = $(wildcard $(PATH_SRC)*.c)
 OBJ   = $(patsubst $(PATH_SRC)%.c, $(PATH_OBJ)%.o, $(SRC))
 
@@ -39,7 +41,7 @@ $(LIBMLX):
 	@cmake -DDEBUG=1 $(MLX_DIR) -B $(MLX_BUILD_DIR) && cmake --build $(MLX_BUILD_DIR) -j4
 
 # Regla para compilar los objetos (.o)
-$(PATH_OBJ)%.o: $(PATH_SRC)%.c | $(PATH_OBJ)
+$(PATH_OBJ)%.o: $(PATH_SRC)%.c $(INC) | $(PATH_OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(PATH_OBJ):

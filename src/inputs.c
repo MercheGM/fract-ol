@@ -6,16 +6,20 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 19:34:16 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/04 21:09:05 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/09 19:49:10 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void print_help()
+void print_help(t_data *data)
 {
-	ft_printf("Argument incorrect: ./fractol fractal_number\n");
-	ft_printf("Please introduce:\n[M1] to see Mandelbrot\n[J1] to see Julia\n");
+	free(data);
+	data = NULL;
+	ft_printf("Arguments incorrect: ./fractol [-iter num] fractal_ID\n");
+	ft_printf("Please introduce:\n[M/m] to see Mandelbrot\n[J/j] to see Julia\n");
+	ft_printf("If you want to change iterations number, use -iter\n");
+	exit(1);
 }
 
 int	check_arg(int argc, char *argv[], t_data *data)
@@ -24,23 +28,23 @@ int	check_arg(int argc, char *argv[], t_data *data)
 	char *str;
 	int temp;
 	
-	printf("tam: %dx%d\n", WIN_WIDTH, WIN_HEIGHT);
 	temp = ITER;
 	err = 0;
-	if (argc >= 2 )
+	if (argc >= 2 && argc <= 4)
 	{
-		if (!ft_strncmp(argv[1],"-iter", 5))
+		if (!ft_strncmp(argv[1],"-iter", 5) && (argc == 4))
 			temp = ft_atoi(argv[2]);
-		else if (((!ft_strncmp(argv[1],"M", 1) || !ft_strncmp(argv[1],"m", 1)) || \
+		if (((!ft_strncmp(argv[1],"M", 1) || !ft_strncmp(argv[1],"m", 1)) || \
 			((!ft_strncmp(argv[3],"M", 1) || !ft_strncmp(argv[3],"m", 1)))))
 			init_mandelbrot(data);
 		else if (((!ft_strncmp(argv[1],"J", 1) || !ft_strncmp(argv[1],"j", 1)) || \
 			((!ft_strncmp(argv[3],"J", 1) || !ft_strncmp(argv[3],"j", 1)))))
 			init_julia(data);
-		
+		else
+			print_help(data);
 		data->max_iter = temp;
 		return (err);
 	}
-	print_help();
-	exit(1);
+	print_help(data);
+	return (err);
 }

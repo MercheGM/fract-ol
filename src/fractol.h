@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:15:32 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/04 21:28:50 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/09 20:56:13 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,39 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-#include "../MLX42/include/MLX42/MLX42.h"
-#include "../libft/ft_printf.h"
-#include <math.h>
-#include <stdlib.h>
-#include <stdint.h>
+# include "../MLX42/include/MLX42/MLX42.h"
+# include "../libft/ft_printf.h"
+# include <math.h>
+# include <stdlib.h>
+# include <stdint.h>
 # include <math.h>
 
-# ifndef M_PI
-#  define M_PI 3.14159265358979323846
-# endif
+
+# define M_PI 3.14159265358979323846
+# define WIN_WIDTH 600
+# define WIN_HEIGHT 500
+
+# define ITER 70
+
+# define COLOR_BLACK 0x000000FF
+# define COLOR_RED 0xFF0000FF
+# define COLOR_BLUE 0x00FF00FF
+# define COLOR_GREEN 0x0000FFFF
+
+//colors for fractal
+# define NEON_PINK 0xFF149300
+# define NEON_GREEN 0x00FF00
+# define NEON_BLUE 0x00FFFF00
+# define NEON_YELLOW 0xBBFF0000
+# define NEON_RED 0xFF000000
+# define COLOR_WHITE 0xFFFFFFFF
+
+# define MANDELBROT 1
+# define JULIA 2
+
+# define PSYCHEDELIC 1
+# define DEGRADED 2
+
 
 typedef struct s_data
 {
@@ -31,10 +54,10 @@ typedef struct s_data
     int         type;
     mlx_t       *mlx;
     mlx_image_t *img;
-    double      min_re;
+    /*double      min_re;
     double      max_re;
     double      min_im;
-    double      max_im;
+    double      max_im;*/
     int         max_iter;
     double      x_min;
     double      x_max;
@@ -44,31 +67,9 @@ typedef struct s_data
     double      c_im;
     double      zoom_factor;
     uint32_t    color;
+    int         transition;
 }               t_data;
 
-# define WIN_WIDTH 700
-# define WIN_HEIGHT 500
-
-# define ITER 70
-
-# define COLOR_BLACK 0x000000FF
-# define COLOR_PSYCHEDELIC 0xFF0000FF
-# define COLOR3 0x0487AF00
-# define COLOR4 0x00FF00FF
-/*# define COLOR5
-# define COLOR6*/
-
-//colors for fractal
-# define NEON_PINK 0xFF149300
-# define NEON_GREEN 0x00FF00
-# define NEON_BLUE 0x00FFFF00
-# define NEON_YELLOW 0xBBFF0000
-# define NEON_RED 0xFF000000
-# define BLACK 0x00000000
-# define WHITE 0xFFFFFFFF
-
-# define MANDELBROT 1
-# define JULIA 2
 
 //inputs.c
 int	check_arg(int argc, char *argv[], t_data *data);
@@ -86,6 +87,7 @@ void init_mandelbrot(t_data *data);
 
 //window.c
 int	init_window(t_data	*data);
+void closing_window(t_data *data);
 
 //julia.c
 void init_julia(t_data *data);
