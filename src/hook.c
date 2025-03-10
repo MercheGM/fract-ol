@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:13:16 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/09 20:58:57 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/10 20:06:30 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	zoom_in(t_data *data, double zoom_factor, int x, int y)
         data->x_max = pointer_x + zoom_factor * (data->x_max - pointer_x);
         data->y_min = pointer_y + zoom_factor * (data->y_min - pointer_y);
         data->y_max = pointer_y + zoom_factor * (data->y_max - pointer_y);
-		data->max_iter += 2;
+		data->max_iter += 5;
 }
 
 void	zoom_out(t_data *data, double zoom_factor, int x, int y)
@@ -45,7 +45,7 @@ void	zoom_out(t_data *data, double zoom_factor, int x, int y)
         data->x_max = pointer_x + (data->x_max - pointer_x) / zoom_factor;
         data->y_min = pointer_y + (data->y_min - pointer_y) / zoom_factor;
         data->y_max = pointer_y + (data->y_max - pointer_y) / zoom_factor;
-		data->max_iter -= 2;
+		data->max_iter -= 5;
 }
 
 void check_mouse_pos(int *x, int *y)
@@ -63,8 +63,6 @@ void my_scrollhook(double xdelta, double ydelta, void* param)
 	int y;
 	
 	data = (t_data *)param;
-	//printf("pintamos el fractal\n");
-
 	mlx_get_mouse_pos(data->mlx,&x,&y);
 	check_mouse_pos(&x, &y);
 	if (ydelta > 0)
@@ -76,20 +74,14 @@ void my_scrollhook(double xdelta, double ydelta, void* param)
 }
 void changing_colors(t_data *data)
 {
-	//printf("old %X\n", data->color);
-	if (data->color == COLOR_RED)
-		data->color = COLOR_BLUE;
-	else if (data->color == COLOR_BLUE)
-		data->color = COLOR_GREEN;
-	else if (data->color == COLOR_GREEN)
+	if (data->color == COLOR_PURPLE)
+		data->color = NEON_PINK;
+	else if (data->color == NEON_PINK)
 		data->color = NEON_BLUE;
 	else if (data->color == NEON_BLUE)
-		data->color = NEON_YELLOW;
-	else if (data->color == NEON_YELLOW)
-		data->color = NEON_RED;
-	else if (data->color == NEON_RED)
-		data->color = COLOR_WHITE;
-	//printf("new %X\n", data->color);
+		data->color =COLOR_RED;
+	else if (data->color == COLOR_RED)
+		data->color = COLOR_PURPLE;
 }
 
 void changing_transition(t_data *data)
@@ -97,6 +89,8 @@ void changing_transition(t_data *data)
 	if (data->transition == PSYCHEDELIC)
 		data->transition = DEGRADED;
 	else if (data->transition == DEGRADED)
+		data->transition = DEGRADED_BLACK;
+	else if (data->transition == DEGRADED_BLACK)
 		data->transition = PSYCHEDELIC;
 }
 void move(mlx_key_data_t key, t_data *data)

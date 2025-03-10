@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:15:32 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/09 20:56:13 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/10 20:51:29 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,22 @@
 # define ITER 70
 
 # define COLOR_BLACK 0x000000FF
-# define COLOR_RED 0xFF0000FF
-# define COLOR_BLUE 0x00FF00FF
-# define COLOR_GREEN 0x0000FFFF
-
-//colors for fractal
 # define NEON_PINK 0xFF149300
 # define NEON_GREEN 0x00FF00
 # define NEON_BLUE 0x00FFFF00
 # define NEON_YELLOW 0xBBFF0000
 # define NEON_RED 0xFF000000
 # define COLOR_WHITE 0xFFFFFFFF
+# define COLOR_PURPLE 0x6C3483FF
+# define COLOR_END 0xABEBC6FF
+# define COLOR_RED 0xFF0000FF
 
 # define MANDELBROT 1
 # define JULIA 2
 
 # define PSYCHEDELIC 1
-# define DEGRADED 2
+# define DEGRADED_BLACK 2
+# define DEGRADED 3
 
 
 typedef struct s_data
@@ -54,20 +53,21 @@ typedef struct s_data
     int         type;
     mlx_t       *mlx;
     mlx_image_t *img;
-    /*double      min_re;
-    double      max_re;
+    /*double      z_re;
+    double      z_im;
     double      min_im;
     double      max_im;*/
     int         max_iter;
-    double      x_min;
+    double      x_min;  //offsetX para Julia
     double      x_max;
-    double      y_min;
+    double      y_min; //offsetY para Julia
     double      y_max;
     double      c_re;
     double      c_im;
     double      zoom_factor;
     uint32_t    color;
     int         transition;
+    int         step_size;
 }               t_data;
 
 
@@ -81,9 +81,10 @@ void	hook(void* param);
 void	hook_mandelbrot(void* param);
 
 //mandelbrot.c
+void init_mandelbrot(t_data *data);
 int mandelbrot(t_data *data);
 int print_mandelbrot(t_data	*data);
-void init_mandelbrot(t_data *data);
+
 
 //window.c
 int	init_window(t_data	*data);
@@ -91,6 +92,8 @@ void closing_window(t_data *data);
 
 //julia.c
 void init_julia(t_data *data);
+int julia(t_data *data);
+int print_julia(t_data	*data);
 
 //colors.c
 uint32_t get_color(int iterations, t_data	*data);

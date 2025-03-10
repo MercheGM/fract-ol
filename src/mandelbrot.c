@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:40:42 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/09 20:54:43 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/10 20:01:29 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@ void init_mandelbrot(t_data *data)
     data->y_min = -1.5;
     data->y_max = 1.5;
     data->zoom_factor = 0.9;
-    data->color = COLOR_RED;
+    data->color = COLOR_PURPLE;
     data->transition = DEGRADED;
-
+    data->step_size = 1;
 }
 
-// Función para mapear píxel a coordenada compleja
 void pixel_to_complex(int x, int y, t_data	*data)
 {
     data->c_re = data->x_min + ((double)x / WIN_WIDTH) * (data->x_max - data->x_min);
