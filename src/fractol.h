@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:15:32 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/10 20:51:29 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/11 17:05:18 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,8 @@ void	hook_mandelbrot(void* param);
 
 //mandelbrot.c
 void init_mandelbrot(t_data *data);
-int mandelbrot(t_data *data);
 int print_mandelbrot(t_data	*data);
-
+int mandelbrot(t_data *data);
 
 //window.c
 int	init_window(t_data	*data);
@@ -92,8 +91,9 @@ void closing_window(t_data *data);
 
 //julia.c
 void init_julia(t_data *data);
-int julia(t_data *data);
-int print_julia(t_data	*data);
+int julia_iter(int x, int y, t_data * data);
+void print_julia(t_data	*data);
+int julia(t_data	*data);
 
 //colors.c
 uint32_t get_color(int iterations, t_data	*data);

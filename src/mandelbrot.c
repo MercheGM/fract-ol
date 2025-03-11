@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:40:42 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/10 20:01:29 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:47:23 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,33 +26,28 @@ void init_mandelbrot(t_data *data)
     data->step_size = 1;
 }
 
-void pixel_to_complex(int x, int y, t_data	*data)
-{
-    data->c_re = data->x_min + ((double)x / WIN_WIDTH) * (data->x_max - data->x_min);
-    data->c_im = data->y_min + ((double)y / WIN_HEIGHT) * (data->y_max - data->y_min);
-}
-
 // Función para calcular el número de iteraciones en Mandelbrot
-int mandelbrot_iter(t_data	*data) 
+int calculate_mandelbrot(int x, int y, t_data	*data) 
 {
     double z_re;
     double z_im;
-    int i;
+    int iter;
     double temp;
     
     z_re = 0;
     z_im = 0;
-    i = 0;
-    while ((z_re * z_re + z_im * z_im <= 4) && (i < data->max_iter)) 
+    iter = 0;
+    data->c_re = data->x_min + ((double)x / WIN_WIDTH) * (data->x_max - data->x_min);
+    data->c_im = data->y_min + ((double)y / WIN_HEIGHT) * (data->y_max - data->y_min);
+    while ((z_re * z_re + z_im * z_im <= 4) && (iter < data->max_iter)) 
     {
         temp = z_re * z_re - z_im * z_im + data->c_re;
         z_im = 2 * z_re * z_im + data->c_im;
         z_re = temp;
-        i++;
+        iter++;
     }
-    return (i);
+    return (iter);
 }
-
 
 int print_mandelbrot(t_data	*data )
 {
@@ -69,8 +64,7 @@ int print_mandelbrot(t_data	*data )
 		y = 0;
         while (y < WIN_HEIGHT)
         {
-            pixel_to_complex(x, y, data);
-            iterations = mandelbrot_iter(data);
+            iterations = calculate_mandelbrot(x, y, data);
             color = get_color(iterations, data);
             mlx_put_pixel(data->img, x, y, color);
 			y++;

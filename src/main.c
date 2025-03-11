@@ -6,13 +6,13 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 19:28:14 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/10 21:03:06 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:59:25 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-/*int main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	int		err;
 	t_data	*data;
@@ -41,10 +41,10 @@
 	closing_window(data);
 	return (0);
 
-}*/
+}
 
 //#include "MLX42/MLX42.h"
-#include <math.h>
+/*#include <math.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -62,33 +62,54 @@ typedef struct s_julia {
     double offsetY;
 } t_julia;
 
+double ft_pow(double n, int exp)
+{
+    int result;
+
+    result = 1;
+    while (exp--)
+        result *= n;
+    return (result);
+}
+int julia_iter(int x, int y, t_julia * data, int max_iterations)
+{
+    double z_re;
+    double z_im;
+    int iterations;
+    double temp;
+    int exp;
+    
+    z_re = ((double)x / WIDTH - 0.5) * 3.5 / data->zoom + data->offsetX;
+    z_im = ((double)y / HEIGHT - 0.5) * 2.0 / data->zoom + data->offsetY;
+
+    iterations = 0;
+    temp = 0;
+    exp = 2;
+    while (pow(z_re, exp) + pow(z_im, exp) <= 4 && iterations < max_iterations)
+    {
+        temp = pow(z_re, exp) - pow(z_im, exp) + data->c_re;
+        z_im = exp * z_re * z_im + data->c_im;
+        z_re = temp;
+        iterations++;
+    }
+    return (iterations);
+}
 void generate_julia2(t_julia *data)
 {
-    int max_iterations = 100;
-
+    int max_iterations = 30;
+    int exp = 2;
+    int iterations;
     for (uint32_t x = 0; x < WIDTH; x++)
     {
         for (uint32_t y = 0; y < HEIGHT; y++)
         {
-            // Mapeamos el píxel al plano complejo
-            double z_re = ((double)x / WIDTH - 0.5) * 3.5 / data->zoom + data->offsetX;
-            double z_im = ((double)y / HEIGHT - 0.5) * 2.0 / data->zoom + data->offsetY;
-
-            int iterations = 0;
-            while (z_re * z_re + z_im * z_im <= 4 && iterations < max_iterations)
-            {
-                double temp = z_re * z_re - z_im * z_im + data->c_re;
-                z_im = 2 * z_re * z_im + data->c_im;
-                z_re = temp;
-                iterations++;
-            }
-
+            iterations = julia_iter(x, y, data, max_iterations);
             // Asigna un color según las iteraciones
             uint32_t color;
             if (iterations == max_iterations)
-                color = 0xFF000000; // negro (punto dentro del fractal)
+                color = 0xFFFFFFFF; // negro (punto dentro del fractal)
             else
-                color = 0xFF000000 | ((iterations * 255 / max_iterations) << 16); // rojo degradado
+                color = 0x000000FF | ((iterations * 255 / max_iterations) << 24); // rojo degradado
 
             // Dibuja el píxel en la imagen
             mlx_put_pixel(data->img, x, y, color);
@@ -123,7 +144,9 @@ int main(int argc, char **argv)
     data.zoom = 1.0;
     data.offsetX = 0.0;
     data.offsetY = 0.0;
-
+    
+    int i = 4;
+    //printf("%i - %f\n", i, pow(i, 2));
     // Inicializa MLX42
     data.mlx = mlx_init(WIDTH, HEIGHT, "Fractal de Julia", false);
     if (!data.mlx)
@@ -144,4 +167,4 @@ int main(int argc, char **argv)
     mlx_loop(data.mlx);
 
     return EXIT_SUCCESS;
-}
+}*/
