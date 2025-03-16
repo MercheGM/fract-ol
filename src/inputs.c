@@ -6,48 +6,51 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 19:34:16 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/10 20:13:11 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/16 21:21:15 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void print_help(t_data *data)
+int	print_help(t_data *data)
 {
 	free(data);
 	data = NULL;
 	ft_printf("Arguments incorrect: ./fractol [-iter num] fractal_ID\n");
-	ft_printf("Please introduce:\n[M/m] to see Mandelbrot\n[J/j] to see Julia\n");
-	ft_printf("If you want to change iterations number, use -iter\n");
-	exit(1);
+	ft_printf("Please introduce:\n");
+	ft_printf("[M/m] to see Mandelbrot\n[J/j] to see Julia\n");
+	ft_printf("If you want to change iterations number, use -iter \n");
+	exit(EXIT_FAILURE);
 }
 
 int	check_arg(int argc, char *argv[], t_data *data)
 {
-	int err;
-	char *str;
-	int temp;
-	
+	int		err;
+	int		pos;
+	int		temp;
+
+	pos = 1;
 	temp = ITER;
 	err = 0;
 	if (argc >= 2 && argc <= 6)
 	{
-		if (!ft_strncmp(argv[1],"-iter", 5) && ((argc >= 4) && (argc <= 6)))
-			temp = ft_atoi(argv[2]);
-		if (((!ft_strncmp(argv[1],"M", 1) || !ft_strncmp(argv[1],"m", 1)) || \
-			((!ft_strncmp(argv[3],"M", 1) || !ft_strncmp(argv[3],"m", 1)))))
-			init_mandelbrot(data);
-		else if (((!ft_strncmp(argv[1],"J", 1) || !ft_strncmp(argv[1],"j", 1)) || \
-			((!ft_strncmp(argv[3],"J", 1) || !ft_strncmp(argv[3],"j", 1)))))
+		if (!ft_strncmp(argv[1], "-iter", 5) && ((argc >= 4) && (argc <= 6)))
 		{
-			
-			init_julia(data);
+			temp = ft_atoi(argv[2]);
+			pos = 3;
+		}
+		if (temp)
+		{
+			if (((!ft_strncmp(argv[pos], "M", 1) || !ft_strncmp(argv[pos], "m", 1))))
+				init_mandelbrot(data, temp);
+			else if (((!ft_strncmp(argv[pos], "J", 1) || \
+				!ft_strncmp(argv[pos], "j", 1))))
+				init_julia(data, temp);
+			else
+				err = 1;
 		}
 		else
-			print_help(data);
-		data->max_iter = temp;
-		return (err);
+			err = 1;
 	}
-	print_help(data);
 	return (err);
 }
