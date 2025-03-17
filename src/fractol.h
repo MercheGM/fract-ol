@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:15:32 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/16 21:15:11 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:08:47 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define WIN_WIDTH 600
 # define WIN_HEIGHT 500
 
-# define ITER 70
+# define ITER 60
 
 # define COLOR_BLACK 0x000000FF
 # define NEON_PINK 0xFF149300
@@ -70,9 +70,8 @@ int			print_help(t_data *data);
 void		scroll_zoom(double xdelta, double ydelta, void *param);
 void		key_events(mlx_key_data_t keydata, void *param);
 void		hook(void *param);
-//void		hook_mandelbrot(void *param);
 void		check_mouse_pos(int *x, int *y);
-
+double ft_atof(const char *nptr);
 //mandelbrot.c
 void		init_mandelbrot(t_data *data, int iter);
 int			print_mandelbrot(t_data	*data);
@@ -85,7 +84,7 @@ int			print_fractal(t_data *data);
 int			fractal(t_data	*data);
 
 //julia.c
-void		init_julia(t_data *data, int iter);
+void	init_julia(t_data *data, int iter, double cr, double ci);
 //int calculate_julia(int x, int y, t_data * data);
 void		print_julia(t_data	*data);
 //int julia(t_data	*data);

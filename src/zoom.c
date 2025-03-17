@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 18:59:13 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/16 19:50:50 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:54:40 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	zoom_in(t_data *data, double zoom_factor, int x, int y)
 	data->x_max = pointer_x + zoom_factor * (data->x_max - pointer_x);
 	data->y_min = pointer_y + zoom_factor * (data->y_min - pointer_y);
 	data->y_max = pointer_y + zoom_factor * (data->y_max - pointer_y);
-	data->max_iter += 5;
+	data->max_iter += 2;
 }
 
 void	zoom_out(t_data *data, double zoom_factor, int x, int y)
@@ -51,7 +51,7 @@ void	zoom_out(t_data *data, double zoom_factor, int x, int y)
 	data->x_max = pointer_x + (data->x_max - pointer_x) / zoom_factor;
 	data->y_min = pointer_y + (data->y_min - pointer_y) / zoom_factor;
 	data->y_max = pointer_y + (data->y_max - pointer_y) / zoom_factor;
-	data->max_iter -= 5;
+	data->max_iter -= 2;
 }
 
 void	scroll_zoom(double xdelta, double ydelta, void *param)

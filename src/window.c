@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:16:57 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/16 21:29:56 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:36:43 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	closing_window(t_data *data)
 	mlx_close_window(data->mlx);
 	ft_printf("Closing..\n");
 	free(data);
+	data = NULL;
 	exit(0);
 }
 
