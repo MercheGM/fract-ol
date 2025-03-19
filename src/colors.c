@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 21:01:58 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/16 20:17:57 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/19 21:04:18 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ uint32_t	get_degraded_steps(t_data *data, int iter, int steps)
 	return (color);
 }
 
-// Función para obtener un color basado en el número de iteraciones
 uint32_t	get_color(int iterations, t_data *data)
 {
 	uint32_t	color;

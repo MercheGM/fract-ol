@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 18:59:13 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/17 18:54:40 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:35:25 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,5 @@ void	scroll_zoom(double xdelta, double ydelta, void *param)
 		zoom_in(data, data->zoom_factor, x, y);
 	else if (ydelta < 0)
 		zoom_out(data, data->zoom_factor, x, y);
-    print_fractal(data);
+	print_fractal(data);
 }

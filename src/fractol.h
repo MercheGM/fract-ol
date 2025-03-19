@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:15:32 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/17 20:08:47 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/19 22:04:03 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@
 
 # define MANDELBROT 1
 # define JULIA 2
+# define JULIATHREE 3
+# define JULIACOSH 4
 
 # define PSYCHEDELIC 1
 # define DEGRADED_BLACK 2
@@ -61,6 +63,7 @@ typedef struct s_data
 	uint32_t	color;
 	int			transition;
 	int			step_size;
+	int			exp;
 }				t_data;
 
 //inputs.c
@@ -71,11 +74,10 @@ void		scroll_zoom(double xdelta, double ydelta, void *param);
 void		key_events(mlx_key_data_t keydata, void *param);
 void		hook(void *param);
 void		check_mouse_pos(int *x, int *y);
-double ft_atof(const char *nptr);
+
 //mandelbrot.c
 void		init_mandelbrot(t_data *data, int iter);
-int			print_mandelbrot(t_data	*data);
-int			mandelbrot(t_data *data);
+int			calculate_mandelbrot(int x, int y, t_data	*data);
 
 //window.c
 int			init_window(t_data	*data);
@@ -84,10 +86,10 @@ int			print_fractal(t_data *data);
 int			fractal(t_data	*data);
 
 //julia.c
-void	init_julia(t_data *data, int iter, double cr, double ci);
-//int calculate_julia(int x, int y, t_data * data);
-void		print_julia(t_data	*data);
-//int julia(t_data	*data);
+void		init_julia(t_data *data, int iter, double cr, double ci);
+int			calculate_julia(int x, int y, t_data	*data);
+int			calculate_julia_three(int x, int y, t_data	*data);
+int			calculate_julia_expz(int x, int y, t_data	*data);
 
 //zoom.c
 void		my_scrollhook(double xdelta, double ydelta, void *param);
@@ -103,4 +105,9 @@ int			get_r(int rgba);
 int			get_g(int rgba);
 int			get_b(int rgba);
 int			get_a(int rgba);
+
+//utils.c
+double		ft_atof(const char *nptr);
+void		free_mem(void	*ptr);
+
 #endif

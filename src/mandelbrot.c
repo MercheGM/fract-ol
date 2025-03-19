@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:40:42 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/16 21:15:55 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/19 21:09:06 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	init_mandelbrot(t_data *data, int iter)
 	data->max_iter = iter;
 }
 
-// Función para calcular el número de iteraciones en Mandelbrot
 int	calculate_mandelbrot(int x, int y, t_data	*data)
 {
 	double	z_re;
@@ -50,29 +49,4 @@ int	calculate_mandelbrot(int x, int y, t_data	*data)
 		iter++;
 	}
 	return (iter);
-}
-
-int	print_mandelbrot(t_data	*data )
-{
-	int	x;
-	int	y;
-	int	iterations;
-	int	color;
-
-	iterations = 0;
-	x = 0;
-	while (x < WIN_WIDTH)
-	{
-		y = 0;
-		while (y < WIN_HEIGHT)
-		{
-			iterations = calculate_mandelbrot(x, y, data);
-			color = get_color(iterations, data);
-			mlx_put_pixel(data->img, x, y, color);
-			y++;
-		}
-		x++;
-	}
-	mlx_image_to_window(data->mlx, data->img, 0, 0);
-	return (0);
 }

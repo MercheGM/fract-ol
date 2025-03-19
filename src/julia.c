@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:53:41 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/17 20:08:00 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/19 21:16:03 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,8 @@ void	init_julia(t_data *data, int iter, double cr, double ci)
 	data->transition = DEGRADED;
 	data->step_size = 1;
 	data->max_iter = iter;
+	data->exp = 2;
 }
-
-/*int	calculate_julia(int x, int y, t_data *data)
-{
-	double	zx;
-	double	zy;
-	double	temp;
-	int		iter;
-
-	zx = data->x_min + ((double)x / WIN_WIDTH) * (data->x_max - data->x_min);
-	zy = data->y_min + ((double)y / WIN_HEIGHT) * (data->y_max - data->y_min);
-	iter = 0;
-	while ((zx * zx + zy * zy < 4) && (iter < data->max_iter))
-	{
-		temp = zx * zx - zy * zy + data->c_re;
-		zy = 2.0 * zx * zy + data->c_im;
-		zx = temp;
-		iter++;
-	}
-	return (iter);
-}*/
 
 int	calculate_julia(int x, int y, t_data *data)
 {
@@ -69,26 +50,46 @@ int	calculate_julia(int x, int y, t_data *data)
 	return (iter);
 }
 
-void	print_julia(t_data *data)
+int	calculate_julia_three(int x, int y, t_data *data)
 {
-	int	x;
-	int	y;
-	int	iterations;
-	int	color;
+	int		iter;
+	double	zr;
+	double	zi;
+	double	zr_aux;
 
-	x = 0;
-	while (x < WIN_WIDTH)
+	iter = 0;
+	zr = x;
+	zi = y;
+	while (iter < data->max_iter)
 	{
-		y = 0;
-		iterations = 0;
-		while (y < WIN_HEIGHT)
-		{
-			iterations = calculate_julia(x, y, data);
-			color = get_color(iterations, data);
-			mlx_put_pixel(data->img, x, y, color);
-			y++;
-		}
-		x++;
+		if (zr * zr + zi * zi > 4)
+			return (iter);
+		zr_aux = zr;
+		zr = zr * zr * zr - 3 * zr * zi * zi + data->c_re;
+		zi = 3 * zr_aux * zr_aux * zi - zi * zi * zi + data->c_im;
+		iter++;
 	}
-	mlx_image_to_window(data->mlx, data->img, 0, 0);
+	return (iter);
+}
+
+int	calculate_julia_expz(int x, int y, t_data *data)
+{
+	double	zx;
+	double	zy;
+	double	temp;
+	int		iter;
+
+	zx = data->x_min + ((double)x / WIN_WIDTH) * (data->x_max - data->x_min);
+	zy = data->y_min + ((double)y / WIN_HEIGHT) * (data->y_max - data->y_min);
+	iter = 0;
+	while ((zx * zx + zy * zy < 4) && (iter < data->max_iter))
+	{
+		temp = zx;
+		zx = exp(temp * temp * temp - 3 * temp * zy * zy) * \
+			cos(3 * temp * temp * zy - zy * zy * zy) - 0.59;
+		zy = exp(temp * temp * temp - 3 * temp * zy * zy) * \
+			sin(3 * temp * temp * zy - zy * zy * zy);
+		iter++;
+	}
+	return (iter);
 }

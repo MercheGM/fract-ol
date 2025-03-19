@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 19:34:16 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/17 21:01:14 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/19 22:03:52 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,51 +23,70 @@ int	print_help(t_data *data)
 	exit(EXIT_FAILURE);
 }
 
-bool check_c(char *str)
+bool	check_c(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		if ((ft_isdigit(str[i])) || (str[i] == '-') || (str[i] == '.'))
 			i++;
 		else
 			return (false);
 	}
-	return (true);	
+	return (true);
 }
 
-int check_init_fractol(int argc, char *argv[], t_data *data, int pos, int temp)
+int	check_julia_inputs(char *argv[], t_data *data, int *info, int type)
 {
-	int err;
-	double cr;
-	double ci;
-	int num;
-	
+	int		err;
+	double	cr;
+	double	ci;
+
+	err = 0;
 	cr = 10;
 	ci = 10;
-	err = 0;
-	//printf("cr: %s ci: %s\n", argv[pos + 1], argv[pos + 2]);
-	if ((!ft_strncmp(argv[pos], "M", 1) || !ft_strncmp(argv[pos], "m", 1)) && (argc == pos + 1))
-		init_mandelbrot(data, temp);
-	else if ((!ft_strncmp(argv[pos], "J", 1) || !ft_strncmp(argv[pos], "j", 1)) && (argc == pos + 1))
-		init_julia(data, temp, 0.7, 0.230);
-	else if ((!ft_strncmp(argv[pos], "J3", 2) || !ft_strncmp(argv[pos], "j3", 2)) && (argc == pos + 3))
+	if (check_c(argv[info[0] + 1]))
+		cr = ft_atof(argv[info[0] + 1]);
+	if (check_c(argv[info[0] + 1]))
+		ci = ft_atof(argv[info[0] + 2]);
+	if (((cr >= -1) && (cr <= 1)) && ((ci >= -1) && (ci <= 1)))
 	{
-		if (check_c(argv[pos + 1]))
-			cr = ft_atof(argv[pos + 1]);
-		if (check_c(argv[pos + 1]))
-			ci = ft_atof(argv[pos + 2]);
-		if (((cr >= -1) && (cr <= 1)) &&  ((ci >= -1) && (ci <= 1)))
-		{
-			//printf("cr: %f ci: %f\n", cr, ci);
-			init_julia(data, temp, cr, ci);
-		}
+		init_julia(data, info[1], cr, ci);
+		if (type == JULIATHREE)
+			data->type = JULIATHREE;
+		else if (type == JULIACOSH)
+			data->type = JULIACOSH;
+	}
+	else
+		err = 1;
+	return (err);
+}
+
+int	check_init_fractol(int ac, char *argv[], t_data *data, int *i)
+{
+	int		err;
+	int		num;
+
+	err = 0;
+	if (!i[2] && (!ft_strncmp(argv[1], "-f", 2) || \
+					!ft_strncmp(argv[3], "-f", 2)) && ((ac >= 3) && (ac <= 7)))
+	{
+		if ((!ft_strncmp(argv[i[0]], "M", 2) || \
+				!ft_strncmp(argv[i[0]], "m", 2)) && (ac == i[0] + 1))
+			init_mandelbrot(data, i[1]);
+		else if ((!ft_strncmp(argv[i[0]], "J0", 3) || \
+				!ft_strncmp(argv[i[0]], "j0", 3)) && (ac == i[0] + 1))
+			init_julia(data, i[1], 0.7, 0.230);
+		else if ((!ft_strncmp(argv[i[0]], "J3", 3) || \
+					!ft_strncmp(argv[i[0]], "j3", 3)) && (ac == i[0] + 3))
+			err = check_julia_inputs(argv, data, i, JULIATHREE);
+		else if ((!ft_strncmp(argv[i[0]], "J4", 3) || \
+					!ft_strncmp(argv[i[0]], "j4", 3)) && (ac == i[0] + 3))
+			err = check_julia_inputs(argv, data, i, JULIACOSH);
 		else
 			err = 1;
-		//check valor double
-		//init_julia3(data, temp, 0.7, 0.230);
 	}
 	else
 		err = 1;
@@ -77,28 +96,25 @@ int check_init_fractol(int argc, char *argv[], t_data *data, int pos, int temp)
 int	check_arg(int argc, char *argv[], t_data *data)
 {
 	int		err;
-	int		pos;
-	int		temp;
+	int		*info;
 
-	pos = 2;
-	temp = ITER;
-	err = 0;
+	info = (int *)ft_calloc(4, sizeof(int));
+	if (!info)
+		return (EXIT_FAILURE);
+	info[0] = 2;
+	info[1] = ITER;
+	info[2] = 0;
 	if (argc >= 3 && argc <= 7)
 	{
 		if (!ft_strncmp(argv[1], "-i", 2) && ((argc >= 5) && (argc <= 7)))
 		{
-			temp = ft_atoi(argv[2]);
-			pos = 4;
+			info[0] = 4;
+			info[1] = ft_atoi(argv[2]);
 		}
-		else
-			err = 1;
-		if (!err && (!ft_strncmp(argv[1], "-f", 2) || !ft_strncmp(argv[3], "-f", 2)) \
-			&& ((argc >= 3) && (argc <= 7)))
-			err = check_init_fractol(argc, argv, data, pos, temp);
-		else
-			err = 1;
+		info[2] = check_init_fractol(argc, argv, data, info);
 	}
 	else
-		err = 1;
-	return (err);
+		info[2] = 1;
+	err = info[2];
+	return (free_mem(info), err);
 }
