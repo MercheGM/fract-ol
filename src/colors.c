@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 21:01:58 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/19 21:04:18 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:18:35 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ uint32_t	get_color(int iterations, t_data *data)
 {
 	uint32_t	color;
 
+	color = get_rgba(0, 0, 0, 0);
 	if (iterations == data->max_iter)
 		color = COLOR_BLACK;
 	else

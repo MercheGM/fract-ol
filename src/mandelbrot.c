@@ -6,13 +6,13 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 20:40:42 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/19 21:09:06 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:20:02 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	init_mandelbrot(t_data *data, int iter)
+void	init_mandelbrot(t_data *data)
 {
 	data->win_title = "Mandelbrot Fractal";
 	data->type = MANDELBROT;
@@ -24,7 +24,7 @@ void	init_mandelbrot(t_data *data, int iter)
 	data->color = COLOR_PURPLE;
 	data->transition = DEGRADED;
 	data->step_size = 1;
-	data->max_iter = iter;
+	data->max_iter = ITER;
 }
 
 int	calculate_mandelbrot(int x, int y, t_data	*data)

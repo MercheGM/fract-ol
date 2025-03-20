@@ -6,16 +6,16 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:53:41 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/20 16:32:36 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:06:10 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	init_julia(t_data *data, int iter, double cr, double ci)
+void	init_julia(t_data *data, double cr, double ci)
 {
 	data->win_title = "Julia Fractal";
-	data->type = JULIA;
+	data->type = JULIACOSH;
 	data->x_min = -2.0;
 	data->x_max = 2.0;
 	data->y_min = -1.5;
@@ -26,7 +26,7 @@ void	init_julia(t_data *data, int iter, double cr, double ci)
 	data->color = COLOR_PURPLE;
 	data->transition = DEGRADED;
 	data->step_size = 1;
-	data->max_iter = iter;
+	data->max_iter = ITER;
 	data->exp = 2;
 }
 

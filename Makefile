@@ -1,5 +1,5 @@
 CC          = cc
-CFLAGS      = -g3 -fsanitize=address -I$(PATH_SRC)
+CFLAGS      = -Wall -Wextra -Werror -g3 -fsanitize=address -I$(PATH_SRC)
 CFLAGS_MLX  = -ldl -lglfw -pthread -lm
 
 RM          = @rm -f

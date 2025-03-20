@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:15:32 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/19 22:04:03 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:19:00 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@
 # include <math.h>
 # include <stdlib.h>
 # include <stdint.h>
-# include <math.h>
 
-# define M_PI 3.14159265358979323846
 # define WIN_WIDTH 600
 # define WIN_HEIGHT 500
 
@@ -76,7 +74,7 @@ void		hook(void *param);
 void		check_mouse_pos(int *x, int *y);
 
 //mandelbrot.c
-void		init_mandelbrot(t_data *data, int iter);
+void		init_mandelbrot(t_data *data);
 int			calculate_mandelbrot(int x, int y, t_data	*data);
 
 //window.c
@@ -86,7 +84,7 @@ int			print_fractal(t_data *data);
 int			fractal(t_data	*data);
 
 //julia.c
-void		init_julia(t_data *data, int iter, double cr, double ci);
+void		init_julia(t_data *data, double cr, double ci);
 int			calculate_julia(int x, int y, t_data	*data);
 int			calculate_julia_three(int x, int y, t_data	*data);
 int			calculate_julia_expz(int x, int y, t_data	*data);
