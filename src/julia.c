@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:53:41 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/19 21:16:03 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:32:36 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,21 +52,19 @@ int	calculate_julia(int x, int y, t_data *data)
 
 int	calculate_julia_three(int x, int y, t_data *data)
 {
+	double	zx;
+	double	zy;
+	double	temp;
 	int		iter;
-	double	zr;
-	double	zi;
-	double	zr_aux;
 
+	zx = data->x_min + ((double)x / WIN_WIDTH) * (data->x_max - data->x_min);
+	zy = data->y_min + ((double)y / WIN_HEIGHT) * (data->y_max - data->y_min);
 	iter = 0;
-	zr = x;
-	zi = y;
-	while (iter < data->max_iter)
+	while ((zx * zx + zy * zy < 4) && (iter < data->max_iter))
 	{
-		if (zr * zr + zi * zi > 4)
-			return (iter);
-		zr_aux = zr;
-		zr = zr * zr * zr - 3 * zr * zi * zi + data->c_re;
-		zi = 3 * zr_aux * zr_aux * zi - zi * zi * zi + data->c_im;
+		temp = zx * zx * zx - 3 * zx * zy * zy + data->c_re;
+		zy = 3 * zx * zx * zy - zy * zy * zy + data->c_im;
+		zx = temp;
 		iter++;
 	}
 	return (iter);
