@@ -6,7 +6,7 @@
 /*   By: mergarci <mergarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 19:34:16 by mergarci          #+#    #+#             */
-/*   Updated: 2025/03/20 18:56:43 by mergarci         ###   ########.fr       */
+/*   Updated: 2025/03/23 17:01:13 by mergarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ bool	check_c(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if ((ft_isdigit(str[i])) || (str[i] == '-') || (str[i] == '.'))
+		if ((str[i] == '-') && i == 0) 
+			i++;
+		else if ((ft_isdigit(str[i])) || (str[i] == '.'))
 			i++;
 		else
 			return (false);
